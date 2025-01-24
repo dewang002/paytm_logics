@@ -3,8 +3,8 @@ const {jwt_key}=require("../config")
 
 const authMiddleware = (req,res,next)=>{
     const buffer = req.headers.authorization
-    if(!buffer||!buffer.startsWith("Bearer")){
-        res.send("this is not valid")
+    if(!buffer||!buffer.startsWith("Bearer ")){
+       return res.send("this is not valid")
     }
     const token = buffer.split(" ")
     const jwt_token = token[1]

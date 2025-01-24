@@ -1,10 +1,10 @@
 import React from 'react'
 
-function InputBox({onChange,lable}) {
+function InputBox({onChange,lable,type,placeholder}) {
   return (
     <>
     <div className='font-semibold text-xl'>{lable}</div>
-    <input placeholder={"type here . . ."} className='w-full bg-zinc-300 p-2 rounded text-lg font-normal' onChange={onChange} type="text" />
+    <input type={type||"text"} placeholder={placeholder||"type here . . ."} className='w-full bg-zinc-300 p-2 rounded text-lg font-normal' onChange={onChange} />
     </>
   )
 }

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import InputBox from "../component/InputBox";
 import Button from "../component/Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Dashbord() {
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -48,7 +50,7 @@ function Dashbord() {
                   {elem.name}
                 </div>
                 <Button lable={"send"} onClick={()=>
-                  navigate("/search?name=")
+                  navigate(`/send ?name=${elem.name}&id=${elem._id}`)
                 } />
               </div>
             ))}
