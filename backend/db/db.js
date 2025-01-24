@@ -4,14 +4,21 @@ mongoose.connect('mongodb+srv://dewangthapa6:iQo4ME96CFPITA8c@cluster0.hd2m4.mon
 
 
 const userSchema = new mongoose.Schema({
+    name:String,
     email:String,
     password:String,
-    name:String
 })
 
 const accountSchema = new mongoose.Schema({
-    userId:Number,
-    balance:Number
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        require:true
+    },
+    balance:{
+        type:Number,
+        require:true
+    }
 })
  
 const User = mongoose.model("user_data",userSchema)

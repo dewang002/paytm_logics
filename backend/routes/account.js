@@ -4,8 +4,8 @@ const { Account } = require("../db/db")
 const { default: mongoose } = require("mongoose")
 const router = Router()
 
-router.get("/balance",authMiddleware,(req,res)=>{
-    const account = Account.findOne({
+router.get("/balance",authMiddleware,async(req,res)=>{
+    const account =await Account.findOne({
         userId:req.userId
     })
     res.json({
@@ -23,7 +23,7 @@ router.post("/transaction",authMiddleware, async (req,res)=>{
     // first find the account of the current user and connect it with session
     const account = await Account.findOne({userId:req.userId}).session(session)
     //and if the amount is less then the accuntbalance or account dont exist then just abort the transition
-    if(!account || !account.balance<amount){
+    if(!account || account.balance<amount){
         await session.abortTransaction()
         return res.status(400).json({
             message:"you dont have enough balance"

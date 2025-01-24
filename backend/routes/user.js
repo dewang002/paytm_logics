@@ -25,7 +25,7 @@ const updateBody = zod.object({
 router.post("/signup", async (req, res) => {
   const { success } = signupBody.safeParse(req.body);
   if (!success) {
-    return res.send("something wend wrong");
+    return res.send("something went wrong");
   }
   const existingUser = await User.findOne({
     email: req.body.email,
@@ -51,17 +51,17 @@ router.post("/signup", async (req, res) => {
     },
     JWT_KEY
   );
-  res.status(201).json({ message: "User created", token });
+  res.status(201).json({ message: "User created", token:token });
 });
 
 
 router.post('/signin',async(req,res)=>{
-    const {success} = signinBody(req.body)
+    const {success} = signinBody.safeParse(req.body)
     if(!success){
         return res.send("wrong inputs, please try again")
     }
 
-    const user = User.findOne({
+    const user = await User.findOne({
         email: req.body.email,
         password: req.body.password
     })
@@ -89,13 +89,13 @@ router.put("/", authMiddleware, async (req, res) => {
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
   try {
-    const user = User.find({
+    const users =await User.find({
         name:{
             $regex:filter
         }
     })
     res.json({
-      user: user.map((elem) => ({ 
+      user: users.map((elem) => ({ 
         name: elem.name,
         email: elem.email,
         _id: elem._id
