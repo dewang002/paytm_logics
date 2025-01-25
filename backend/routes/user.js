@@ -88,26 +88,15 @@ router.put("/", authMiddleware, async (req, res) => {
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
-  const authHeader = req.headers.authorization;
+  const userID = req.userId
   try {
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-    const token = authHeader.split(' ')[1];
-    const decode = jwt.verify(token,JWT_KEY)
-    const currentUserId = decoded.userId;
-
-    // 3. Convert string ID to ObjectId for comparison
-    const currentUserObjectId = new Types.ObjectId(currentUserId);
-
     const users =await User.find({
         name:{
             $regex:filter
         },
-        _id: { $ne: currentUserObjectId }
     })
     res.json({
-      user: users.map(elem=>({
+      user: users.filter(elem=>elem._id!==userID).map(elem=>({
         name:elem.name,
         email:elem.email,
         _id:elem._id

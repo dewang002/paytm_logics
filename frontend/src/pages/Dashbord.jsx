@@ -11,7 +11,8 @@ function Dashbord() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3030/api/v1/user/bulk?filter="+ name);
+        const response = await axios.get("http://localhost:3030/api/v1/user/bulk?filter="+ name,
+      );
         setUsers(response.data.user); // Changed from 'user' to 'users'
       } catch (error) {
         console.error("Error fetching users");
